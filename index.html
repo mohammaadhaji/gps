@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map</title>
+    <link rel="stylesheet" type="text/css" href="css/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="css/leaflet-awesom-markers/leaflet.awesome-markers.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            height: 100vh; 
+            width: 100%;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="map"></div>
+</body>
+</html>
+
+<script src="js/leaflet/leaflet.js"></script>
+<script src="js/leaflet-awesom-markers/leaflet.awesome-markers.js"></script>
+<script>
+
+    var map;
+    var currentTileLayer;
+    var marker;
+
+    var redMarker = L.AwesomeMarkers.icon({
+        icon: 'car',
+        markerColor: 'red',
+        prefix: 'fa', 
+    });
+
+    
+    function createMap(lat, lng, zoomLevel){
+
+        map = L.map('map').setView([lat, lng], zoomLevel);
+        // map.on('moveend', function onMoveEnd(){
+        //     var width = map.getBounds().getEast() - map.getBounds().getWest();
+        //     var height = map.getBounds().getNorth() - map.getBounds().getSouth();
+        //     console.log(
+        //         '\ncenter: ' + map.getCenter() + '\n' +
+        //         'width: ' + width + '\n' +
+        //         'height: ' + height + '\n' +
+        //         'size in pixels: ' + map.getSize() + '\n' +
+        //         'East: ' + map.getBounds().getEast() + '\n' +
+        //         'North: ' + map.getBounds().getNorth() + '\n'
+        //     )
+        // });
+    }
+
+    function initBounds(bounds, type){
+        if (type == 'fly') {
+            map.flyToBounds(bounds)
+        }
+        else {
+            map.fitBounds(bounds)  
+        } 
+    }
+    
+    function createTileLayer(path, min=2, max=18){
+        if (currentTileLayer){
+            map.removeLayer(currentTileLayer)
+        }
+        currentTileLayer = L.tileLayer(path, { maxZoom: max, minZoom: min });
+        currentTileLayer.addTo(map);
+    }
+    
+    function updateMarker(lat, lng, mode){
+
+        if (marker == undefined){
+            marker = L.marker([lat, lng], {icon: redMarker})
+            marker.addTo(map)
+        }
+        else{
+            var newLatLng = new L.LatLng(lat, lng);
+            marker.setLatLng(newLatLng); 
+        }
+
+        if (mode == "focus") map.setView([lat, lng])
+    
+    }
+
+    function flyTo(lat, lng, zoomLevel){
+        
+        map.flyTo([lat, lng], zoomLevel);
+    }
+
+</script>
