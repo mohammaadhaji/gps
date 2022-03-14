@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
         self.initTimers()
         self.initButtons()
         self.initActions()
-        file = open('configs/coordinates.json')
+        file = open(DEMO_COORDINATES)
         json_array = json.load(file)
         self.coordinates = json_array['features'][0]['geometry']['coordinates']
     
@@ -66,7 +66,7 @@ class MainWindow(QMainWindow):
             except Exception:
                 self.cmbOnlineTiles.insertItems(0, [])
 
-        offlineTiles = os.listdir(TILES_DIR)
+        offlineTiles = [tile for tile in os.listdir(TILES_DIR) if tile != '.gitignore']
         if 'OnlineTiles.txt' in offlineTiles:
             offlineTiles.remove('OnlineTiles.txt')
 
