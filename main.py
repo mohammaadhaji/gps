@@ -15,7 +15,7 @@ class MainWindow(QMainWindow):
         font = QFont(self.configs['systemFont'][0], self.configs['systemFont'][1])
         self.setFont(font)
         self.browser = QWebEngineView()
-        self.browser.setPage(WebEnginePage())
+        self.browser.setPage(WebEnginePage(self.browser))
         url = QUrl.fromLocalFile(HTML_FILE)
         self.browser.load(url)
         self.browser.loadFinished.connect(self.onMapLoad)

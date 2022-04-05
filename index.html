@@ -34,7 +34,7 @@
     var marker;
 
     var redMarker = L.AwesomeMarkers.icon({
-        icon: 'car',
+        icon: 'fa-rocket',
         markerColor: 'red',
         prefix: 'fa', 
     });
@@ -42,7 +42,7 @@
     
     function createMap(lat, lng, zoomLevel){
 
-        map = L.map('map').setView([lat, lng], zoomLevel);
+        map = L.map('map', { zoomControl: false }).setView([lat, lng], zoomLevel);
         // map.on('moveend', function onMoveEnd(){
         //     var width = map.getBounds().getEast() - map.getBounds().getWest();
         //     var height = map.getBounds().getNorth() - map.getBounds().getSouth();
@@ -58,12 +58,10 @@
     }
 
     function initBounds(bounds, type){
-        if (type == 'fly') {
+        if (type == 'fly') 
             map.flyToBounds(bounds)
-        }
-        else {
+        else 
             map.fitBounds(bounds)  
-        } 
     }
     
     function createTileLayer(path, min=2, max=18){
